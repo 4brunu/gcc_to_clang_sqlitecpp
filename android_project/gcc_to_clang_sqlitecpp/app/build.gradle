@@ -1,0 +1,85 @@
+apply plugin: 'com.android.model.application'
+
+model {
+    android {
+        compileSdkVersion = 24
+        buildToolsVersion = "24.0.0"
+
+        defaultConfig.with {
+            applicationId = "com.example.gcc_to_clang_sqlitecpp"
+            minSdkVersion.apiLevel = 14
+            targetSdkVersion.apiLevel = 24
+            versionCode 1
+            versionName "1.0"
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled = false
+                proguardFiles.add(file('proguard-rules.txt'))
+            }
+            debug {
+                debuggable = true
+                ndk.with {
+                    debuggable = true
+                }
+            }
+        }
+
+        sources {
+            main {
+                java {
+                    source {
+                        srcDirs += [
+                                "src/main/java",
+                                '../../../generated-src/java'
+                        ]
+                    }
+                }
+                jni {
+                    source {
+                        srcDirs += [
+                                //djinni generated-src
+                                "../../../generated-src/cpp",
+                                "../../../generated-src/jni",
+                                //djinni
+                                "../../../deps/djinni/support-lib/jni",
+                                //SQLiteCpp
+                                "../../../deps/SQLiteCpp/src",
+                                "../../../deps/SQLiteCpp/sqlite3",
+                        ]
+                    }
+                }
+            }
+        }
+        ndk {
+//            toolchain = "gcc"
+//            toolchainVersion = "4.9"
+            toolchain = "clang"
+
+            moduleName = "example"
+
+            stl = "gnustl_static"
+
+            cppFlags.add("-std=c++11")
+            cppFlags.add("-fexceptions")
+            cppFlags.add("-frtti")
+
+            // djinni generated-src
+            cppFlags.add("-I${file("../../../generated-src/cpp")}".toString())
+            //djinni
+            cppFlags.add("-I${file("../../../deps/djinni/support-lib/jni")}".toString())
+            //SQLiteCpp
+            cppFlags.add("-I${file("../../../deps/SQLiteCpp/sqlite3")}".toString())
+            cppFlags.add("-I${file("../../../deps/SQLiteCpp/include")}".toString())
+        }
+
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+}

@@ -1,0 +1,4 @@
+TestCpp = interface +c {
+  static create(): TestCpp;
+  getStringTest() : string;
+}
