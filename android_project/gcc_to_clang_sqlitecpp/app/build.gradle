@@ -65,6 +65,8 @@ model {
             cppFlags.add("-fexceptions")
             cppFlags.add("-frtti")
 
+            ldFlags.add("-latomic")
+
             // djinni generated-src
             cppFlags.add("-I${file("../../../generated-src/cpp")}".toString())
             //djinni
