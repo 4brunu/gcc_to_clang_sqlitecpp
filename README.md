@@ -1,5 +1,7 @@
 # gcc_to_clang_sqlitecpp
 
+## Fixed with SQLiteCpp library update - https://github.com/4brunu/gcc_to_clang_sqlitecpp/commit/1ed805b355882071cacc3913a3f667a51a865707
+
 This project show's the error I'm getting while migrating from GCC to Clang.
 
 ####GCC  Works.
